@@ -386,8 +386,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
         <script>
 
-            const getData = (myChart, badge_id) => {
-                $.ajax({url: `https://d1ni87l7z3.execute-api.us-west-2.amazonaws.com/dev/movement/${badge_id}`, 
+            const getData = (myChart, dataset_id) => {
+                $.ajax({url: `https://ovf9zbzxz0.execute-api.us-west-2.amazonaws.com/dev/movement/${dataset_id}`, 
                         success: function(result){
                             let labels = [];
                             let data = [];
