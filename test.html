@@ -13,7 +13,7 @@
 
     <!-- Bootstrap core CSS -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 
     <style>
         body {
@@ -246,10 +246,11 @@
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
         <script>
 
             const getData = (myChart, dataset_id) => {
-                $.ajax({url: `https://ovf9zbzxz0.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}`, 
+                $.ajax({url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}`, 
                         success: function(result){
                             let xlabels = [];
                             let xdata = [];
@@ -258,9 +259,9 @@
       
                             result.forEach(item => {
                                 xlabels.push(item.time_stamp);
-                                xdata.push(item.x);
-                                ydata.push(item.y);
-                                zdata.push(item.z);
+                                xdata.push(item.raw_x);
+                                ydata.push(item.raw_y);
+                                zdata.push(item.raw_z);
                                 
                             });
                             let d = [];
