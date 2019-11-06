@@ -193,7 +193,7 @@
 
       <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
-      <h2>Movement Data</h2>
+      <!-- <h2>Movement Data</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm" data-url="https://d1ni87l7z3.execute-api.us-west-2.amazonaws.com/dev/movement/1/${badge_id}">
           <thead>
@@ -239,7 +239,19 @@
       </div>
     </main>
   </div>
-</div>
+</div> -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"/>
+
+        <button class="btn btn-primary" onclick="getDetails();">Get Data </button>
+        <table class="table">
+          <thead>
+            <th>Badge ID</th><th>TimeStamp</th><th>x Value</th><th>y Value</th><th>z Value</th></tr>
+          </thead>
+          <tbody id="tBody"></tbody>
+        </table>
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
       <!-- <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script> -->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -281,9 +293,9 @@
             'use strict'
             feather.replace()
 
-            // Graphs
+            //Graphs
             var ctx = document.getElementById('myChart')
-            // eslint-disable-next-line no-unused-vars
+            //eslint-disable-next-line no-unused-vars
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -358,6 +370,43 @@
                 }
                 }
             })
+
+            function getDetails(){
+    $.ajax({
+        url:'https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/1',
+        method:'GET',
+        contentType: "application/json",    
+        dataType:'json',
+        success:function(result){
+        var trHTML='';
+        
+            for(var i=0;i<result.length;i++){
+           trHTML=trHTML+'<tr><td>'+result[i].dataset_id+'</td><td>'+result[i].time_stamp+'</td><td>'+result[i].raw_x+'</td><td>'+result[i].raw_y+'</td><td>'+result[i].raw_z+'</td></tr>'; 
+           }
+          $('#tBody').append(trHTML);
+        },
+        error:function(result){
+
+        }
+      });
+   }
+            function getUrlParam(parameter, defaultvalue){
+              var urlparameter = defaultvalue;
+              if(window.location.href.indexOf(parameter) > -1){
+                urlparameter = getUrlVars()[parameter];
+              }
+              return urlparameter;
+            }
+            var $  = require( 'jquery' );
+            var dt = require( 'datatables.net' )();
+            var dataset_id = getUrlParam(myChart,1);
+            $(document).ready( function () {
+              $('#my_table').DataTable({
+                ajax: `https://ovf9zbzxz0.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}`
+              }   
+              );
+            } );
+
         </script>
     </body>
 </html>
