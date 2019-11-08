@@ -1,15 +1,11 @@
-var express = require('express');
-var app = express();
+const express = require('express')
 
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/', function (req, res) {
-  res.sendFile('hello world');
-});
+const app = express()
 
-// app.get('/dataSet', function (req, res) {
-//     res.send('hello world');
-//   });
+app.use(express.static('public'))
 
-app.listen(process.env.PORT, process.env.IP, function(){
-    console.log("Sever has started")
+app.listen(3000,()=>{
+
+    console.log('App listening on port 3000')
+
 });

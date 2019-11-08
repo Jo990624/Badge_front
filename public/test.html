@@ -141,7 +141,7 @@
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
   </head>
-  <body onload="getData(myChart,dataset_id)">
+  <body onload="getData(myChart);getDetails()">
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">user name</a>
   <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
@@ -261,8 +261,18 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
         <script>
 
-            const getData = (myChart, dataset_id) => {
-                $.ajax({url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}`, 
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            const dataset_id = getUrlVars()["dataset_id"];
+            const badge_id = getUrlVars()["badge_id"];
+
+            const getData = (myChart) => {
+                $.ajax({url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`, 
                         success: function(result){
                             let xlabels = [];
                             let xdata = [];
@@ -372,8 +382,9 @@
             })
 
             function getDetails(){
+              getData(myChart,1);
     $.ajax({
-        url:'https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/1',
+        url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`,
         method:'GET',
         contentType: "application/json",    
         dataType:'json',
@@ -381,7 +392,7 @@
         var trHTML='';
         
             for(var i=0;i<result.length;i++){
-           trHTML=trHTML+'<tr><td>'+result[i].dataset_id+'</td><td>'+result[i].time_stamp+'</td><td>'+result[i].raw_x+'</td><td>'+result[i].raw_y+'</td><td>'+result[i].raw_z+'</td></tr>'; 
+           trHTML=trHTML+'<tr><td>'+result[i].badge_id+'</td><td>'+result[i].time_stamp+'</td><td>'+result[i].raw_x+'</td><td>'+result[i].raw_y+'</td><td>'+result[i].raw_z+'</td></tr>'; 
            }
           $('#tBody').append(trHTML);
         },
@@ -397,15 +408,6 @@
               }
               return urlparameter;
             }
-            var $  = require( 'jquery' );
-            var dt = require( 'datatables.net' )();
-            var dataset_id = getUrlParam(myChart,1);
-            $(document).ready( function () {
-              $('#my_table').DataTable({
-                ajax: `https://ovf9zbzxz0.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}`
-              }   
-              );
-            } );
 
         </script>
     </body>
