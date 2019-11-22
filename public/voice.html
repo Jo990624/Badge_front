@@ -171,13 +171,19 @@
               Datasets
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file"></span>
+              Datasets
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Dashboard</h1>
+        <h1 class="h2">Voice</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -215,9 +221,8 @@
           <tr>
             <th>Badge ID</th>
             <th>Time</th>
-            <th>X</th>
-            <th>Y</th>
-            <th>Z</th>
+            <th>Magnitude</th>
+            <th>Frequency</th>
           </tr>
         </thead>
 
@@ -264,7 +269,7 @@
             const badge_id = getUrlVars()["badge_id"];
 
             const getData = (myChart, dateFrom, dateTo) => {
-              var URL = `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`;
+              var URL = `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/voice/${dataset_id}?badge_id=${badge_id}`;
               if (dateFrom != null) {
                 URL = URL + "&dataFrom=" + dateFrom.toString();
               }
@@ -275,21 +280,19 @@
                 $.ajax({url: URL, 
                         success: function(result){
                             let xlabels = [];
-                            let xdata = [];
-                            let ydata = [];
-                            let zdata = [];
+                            let mdata = [];
+                            let fdata = [];
       
                             result.forEach(item => {
                                 xlabels.push(Date(item.time_stamp));
-                                xdata.push(item.raw_x);
-                                ydata.push(item.raw_y);
-                                zdata.push(item.raw_z);
+                                mdata.push(item.raw_m);
+                                fdata.push(item.raw_f);
                                 
                             });
                             let d = [];
-                            d.push(xdata);
-                            d.push(ydata);
-                            d.push(zdata);
+                            d.push(mdata);
+                            d.push(fdata);
+
 
                             myChart.data.labels = xlabels;
                             myChart.data.datasets.forEach((dataset, index) => {
@@ -319,7 +322,7 @@
                     '7'
                 ],
                 datasets: [{
-                    label:'x',
+                    label:'Magnitude',
                     data: [
                     1.23,
                     1.23,
@@ -334,7 +337,7 @@
                     borderColor: '#007bff',
                     borderWidth: 4,
                     pointBackgroundColor: '#007bff'
-                },{ label:'y',
+                },{ label:'frequency',
                     data: [
                     2.55,
                     3.42,
@@ -347,21 +350,6 @@
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#FF7B00',
-                    borderWidth: 4,
-                    pointBackgroundColor: '#007bff'
-                },{ label:'z',
-                    data: [
-                    -2,
-                    2.5,
-                    2.22,
-                    6,
-                    5.66,
-                    4.53,
-                    3.25
-                    ],
-                    lineTension: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: '#7BFF00',
                     borderWidth: 4,
                     pointBackgroundColor: '#007bff'
                 }
@@ -381,40 +369,12 @@
                 }
             })
 
-  //           function getDetails(dateFrom, dateTo){
-  //             var URL = `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`;
-  //             if (dateFrom != null) {
-  //               URL = URL + "&dataFrom=" + dateFrom.toString();
-  //             }
-  //             if (dateTo != null) {
-  //               URL = URL + "&dataTo=" + dateTo.toString();
-  //             }
-  //             // getData(myChart,1);
-  //   $.ajax({
-  //       url: URL,
-  //       method:'GET',
-  //       contentType: "application/json",    
-  //       dataType:'json',
-  //       success:function(result){
-  //       var trHTML='';
-        
-  //           for(var i=0;i<result.length;i++){
-  //          trHTML=trHTML+'<tr><td>'+result[i].badge_id+'</td><td>'+new Date(result[i].time_stamp).toLocaleString()+'</td><td>'+result[i].raw_x+'</td><td>'+result[i].raw_y+'</td><td>'+result[i].raw_z+'</td></tr>'; 
-  //          }
-  //         $('#tBody').append(trHTML);
-  //       },
-  //       error:function(result){
-
-  //       }
-  //     });
-  //  }
-
             let UPDATE = 5000;
 
             $(document).ready(function() {
                 var table = $('#myTable').DataTable( {
                         ajax: {
-                            url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`,
+                            url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/voice/${dataset_id}?badge_id=${badge_id}`,
                             dataSrc: ''
                             
                         },
@@ -424,14 +384,11 @@
                         "aoColumns" : [
                             {data : 'badge_id'},
                             {data : 'time_stamp'},
-                            {data : 'raw_x'},
-                            {data : 'raw_y'},
-                            {data : 'raw_z'}
+                            {data : 'raw_m'},
+                            {data : 'raw_f'},
                     ]
                     
                       } );
-                      
-
             } 
               
             );
