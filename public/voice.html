@@ -313,39 +313,18 @@
                 type: 'line',
                 data: {
                 labels: [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                    '6',
-                    '7'
                 ],
                 datasets: [{
                     label:'Magnitude',
                     data: [
-                    1.23,
-                    1.23,
-                    2.24,
-                    0.98,
-                    3.33,
-                    1.79,
-                    2.22
                     ],
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#007bff',
                     borderWidth: 4,
                     pointBackgroundColor: '#007bff'
-                },{ label:'frequency',
+                },{ label:'Frequency',
                     data: [
-                    2.55,
-                    3.42,
-                    2.78,
-                    3.89,
-                    4.01,
-                    1.99,
-                    1.87
                     ],
                     lineTension: 0,
                     backgroundColor: 'transparent',
@@ -383,7 +362,10 @@
                     },
                         "aoColumns" : [
                             {data : 'badge_id'},
-                            {data : 'time_stamp'},
+                            {data : 'time_stamp',
+                            render: function ( data, type, row ) {
+                              return new Date(data).toLocaleString();
+                            }},
                             {data : 'raw_m'},
                             {data : 'raw_f'},
                     ]

@@ -280,7 +280,7 @@
                             let zdata = [];
       
                             result.forEach(item => {
-                                xlabels.push(Date(item.time_stamp));
+                                xlabels.push(new Date(item.time_stamp).toLocaleString());
                                 xdata.push(item.raw_x);
                                 ydata.push(item.raw_y);
                                 zdata.push(item.raw_z);
@@ -423,7 +423,10 @@
                     },
                         "aoColumns" : [
                             {data : 'badge_id'},
-                            {data : 'time_stamp'},
+                            {data : 'time_stamp',
+                            render: function ( data, type, row ) {
+                              return new Date(data).toLocaleString();
+                            }},
                             {data : 'raw_x'},
                             {data : 'raw_y'},
                             {data : 'raw_z'}
