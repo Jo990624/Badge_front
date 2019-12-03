@@ -284,7 +284,7 @@
                             let fdata = [];
       
                             result.forEach(item => {
-                                xlabels.push(Date(item.time_stamp));
+                                xlabels.push(new Date(item.time_stamp).toLocaleString());
                                 mdata.push(item.raw_m);
                                 fdata.push(item.raw_f);
                                 
