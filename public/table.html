@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html> 
+  
+<head> 
+    <meta charset="utf-8"> 
+    <meta name="viewport" 
+     content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+  
+    <link rel="stylesheet" 
+href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" /> 
+  
+    <title>Web Badge</title> 
+  
+    <style> 
+        th { 
+            background: green; 
+            border: 2px solid black; 
+        } 
+          
+        .clickable { 
+            height: 50px; 
+            background: gray; 
+            border: 2px solid black; 
+        } 
+          
+        .clickable:hover { 
+            background: green; 
+        } 
+    </style> 
+</head> 
+  
+<body> 
+    <h1 style="color:green;text-align:center;">Web Badge</h1> 
+  
+    <div class="container"> 
+        <table class="w-100"> 
+            <tr class="text-center"> 
+               <th>Dataset Name</th> 
+               <th>Discription</th> 
+            </tr> 
+            <tr class="clickable text-center" 
+               onclick="window.location='/movement?dataset_id=9&badge_id=999'"> 
+               <td>Body Movement</td> 
+               <td>Body movement acceleration on x, y, z</td> 
+            </tr> 
+            <tr class="clickable text-center" 
+               onclick="window.location='/voice?dataset_id=9&badge_id=999'"> 
+               <td>Voice</td> 
+               <td>Voice frequency & amplitude</td> 
+            </tr> 
+        </table> 
+    </div> 
+  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"> 
+    </script> 
+    <script src= 
+     "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> 
+    </script> 
+</body> 
+  
+</html> 
+
+
+
+
+
+
+
+
+
