@@ -1,11 +1,20 @@
 const express = require('express')
+const serverless = require('serverless-http')
 
 const app = express()
-
+const path = require('path');
 app.use(express.static('public'))
 
-app.listen(3000,()=>{
-
-    console.log('App listening on port 3000')
-
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, './public', '/table.html'));
 });
+
+app.get('/movement',function(req,res){
+    res.sendFile(path.join(__dirname, './public', '/movement.html'));
+});
+
+app.get('/voice',function(req,res){
+    res.sendFile(path.join(__dirname, './public', '/voice.html'));
+});
+
+module.exports.handler = serverless(app);
