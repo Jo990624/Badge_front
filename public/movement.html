@@ -264,7 +264,7 @@
             const badge_id = getUrlVars()["badge_id"];
 
             const getData = (myChart, dateFrom, dateTo) => {
-              var URL = `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`;
+              var URL = `/dev/api/movement/${dataset_id}?badge_id=${badge_id}`;
               if (dateFrom != null) {
                 URL = URL + "&dataFrom=" + dateFrom.toString();
               }
@@ -414,7 +414,7 @@
             $(document).ready(function() {
                 var table = $('#myTable').DataTable( {
                         ajax: {
-                            url: `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`,
+                            url: `/dev/api/movement/${dataset_id}?badge_id=${badge_id}`,
                             dataSrc: ''
                             
                         },
