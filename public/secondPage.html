@@ -16,8 +16,6 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-    <title>HomePage</title> 
-    <p>Chose your dataset id</p>
     <style>
         body {
   font-size: .875rem;
@@ -83,7 +81,9 @@
   text-transform: uppercase;
 }
 
-
+/*
+ * Content
+ */
 
 [role="main"] {
   padding-top: 133px; /* Space for fixed navbar */
@@ -147,12 +147,12 @@
             <table id="myTable" class="display nowrap" width="100%">
               <thead>
                 <tr>
+                  <th>badge_id</th>
                   <th>dataset_id</th>
-                  <th>admin</th>
-                  <th>dataset_name</th>
-                  <th>description</th>
-                  <th>numberOfBadges</th>
+                  <th>mac_id</th>
                   <th>time_stamp</th>
+                  <th>user_id</th>
+                  <th>user_name</th>
                 </tr>
               </thead>
       
@@ -180,26 +180,27 @@
                 });
                 return vars;
               }
+              const dataset_id = getUrlVars()["dataset_id"];
 
         $(document).ready(function() {
             var table = $('#myTable').DataTable( {
                     ajax: {
-                        url: `/dev/api/datasetMetaData`,
-                        dataSrc: ''     
+                        url: `/dev/api/badgeMetaData?dataset_id=${dataset_id}`,
+                        dataSrc: '',
                     },
                 colReorder: {
               realtime: true
                 },
                     "aoColumns" : [
-                        {data : 'dataset_id',
+                        {data : 'badge_id',
                         render: function ( data, type, row, meta ) {
-                          return `<a href= '/dev/dataset?dataset_id=${data}'>${data}</a>`;
+                          return `<a href= '/dev/dataset/badge?dataset_id=${dataset_id}&badge_id=${data}'>${data}</a>`;
                         }},
-                        {data : 'admin'},
-                        {data : 'dataset_name'},
-                        {data : 'description'},
-                        {data : 'numberofBadges'},
-                        {data : 'time_stamp'}
+                        {data : 'dataset_id'},
+                        {data : 'mac_id'},
+                        {data : 'time_stamp'},
+                        {data : 'user_id'},
+                        {data : 'user_name'}
                 ]
                 
                 } );

@@ -39,12 +39,12 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
                <th>Discription</th> 
             </tr> 
             <tr class="clickable text-center" 
-               onclick="window.location='/dev/movement?dataset_id=9&badge_id=999'"> 
+               onclick="window.location=`/dev/movement?dataset_id=${dataset_id}&badge_id=${badge_id}`"> 
                <td>Body Movement</td> 
                <td>Body movement acceleration on x, y, z</td> 
             </tr> 
             <tr class="clickable text-center" 
-               onclick="window.location='/dev/voice?dataset_id=9&badge_id=999'"> 
+               onclick="window.location=`/dev/voice?dataset_id=${dataset_id}&badge_id=${badge_id}`"> 
                <td>Voice</td> 
                <td>Voice frequency & amplitude</td> 
             </tr> 
@@ -56,6 +56,17 @@ href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src= 
      "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"> 
     </script> 
+    <script>
+    function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            const dataset_id = getUrlVars()["dataset_id"];
+            const badge_id = getUrlVars()["badge_id"];
+    </script>
 </body> 
   
 </html> 

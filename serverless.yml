@@ -24,8 +24,8 @@ provider:
   name: aws
   runtime: nodejs12.x
   apiGateway:
-    restApiId: d5g9mhm4x5
-    restApiRootResourceId: a4kqq7knyd
+    restApiId: 6zowfrzywc
+    restApiRootResourceId: z0ms342q07
   stage: dev
   region: us-west-2
 
