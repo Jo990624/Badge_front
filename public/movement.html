@@ -308,6 +308,7 @@
                     backgroundColor: 'transparent',
                     borderColor: '#007bff',
                     borderWidth: 1,
+                    pointRadius: 0,
                     pointBackgroundColor: '#007bff'
                 },{ label:'y',
                     data: [
@@ -323,6 +324,7 @@
                     backgroundColor: 'transparent',
                     borderColor: '#FF7B00',
                     borderWidth: 1,
+                    pointRadius: 0,
                     pointBackgroundColor: '#007bff'
                 },{ label:'z',
                     data: [
@@ -338,6 +340,7 @@
                     backgroundColor: 'transparent',
                     borderColor: '#7BFF00',
                     borderWidth: 1,
+                    pointRadius: 0,
                     pointBackgroundColor: '#007bff'
                 }
                 ]
@@ -355,32 +358,7 @@
                 }
                 }
             })
-  //           function getDetails(dateFrom, dateTo){
-  //             var URL = `https://d5g9mhm4x5.execute-api.us-west-2.amazonaws.com/dev/api/movement/${dataset_id}?badge_id=${badge_id}`;
-  //             if (dateFrom != null) {
-  //               URL = URL + "&dataFrom=" + dateFrom.toString();
-  //             }
-  //             if (dateTo != null) {
-  //               URL = URL + "&dataTo=" + dateTo.toString();
-  //             }
-  //             // getData(myChart,1);
-  //   $.ajax({
-  //       url: URL,
-  //       method:'GET',
-  //       contentType: "application/json",    
-  //       dataType:'json',
-  //       success:function(result){
-  //       var trHTML='';
-        
-  //           for(var i=0;i<result.length;i++){
-  //          trHTML=trHTML+'<tr><td>'+result[i].badge_id+'</td><td>'+new Date(result[i].time_stamp).toLocaleString()+'</td><td>'+result[i].raw_x+'</td><td>'+result[i].raw_y+'</td><td>'+result[i].raw_z+'</td></tr>'; 
-  //          }
-  //         $('#tBody').append(trHTML);
-  //       },
-  //       error:function(result){
-  //       }
-  //     });
-  //  }
+  
             let UPDATE = 5000;
             $(document).ready(function() {
                 var table = $('#myTable').DataTable( {
