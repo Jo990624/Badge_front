@@ -194,9 +194,9 @@
           <tr>
             <th>Badge ID</th>
             <th>Time</th>
-            <th>X</th>
-            <th>Y</th>
-            <th>Z</th>
+            <th>State</th>
+            <!-- <th>Y</th>
+            <th>Z</th> -->
           </tr>
         </thead>
 
@@ -253,20 +253,20 @@
                         success: function(result){
                             let xlabels = [];
                             let xdata = [];
-                            let ydata = [];
-                            let zdata = [];
+                            //let ydata = [];
+                            //let zdata = [];
       
                             result.forEach(item => {
                                 xlabels.push(new Date(item.time_stamp).toLocaleString());
                                 xdata.push(item.raw_x);
-                                ydata.push(item.raw_y);
-                                zdata.push(item.raw_z);
+                                //ydata.push(item.raw_y);
+                                //zdata.push(item.raw_z);
                                 
                             });
                             let d = [];
                             d.push(xdata);
-                            d.push(ydata);
-                            d.push(zdata);
+                            //d.push(ydata);
+                            //d.push(zdata);
                             myChart.data.labels = xlabels;
                             myChart.data.datasets.forEach((dataset, index) => {
                                 dataset.data = d[index];
@@ -294,7 +294,7 @@
                     '7'
                 ],
                 datasets: [{
-                    label:'x',
+                    label:'state: 0-static 1-active',
                     data: [
                     1.23,
                     1.23,
@@ -304,45 +304,47 @@
                     1.79,
                     2.22
                     ],
+                    steppedLine: true,
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#007bff',
                     borderWidth: 1,
                     pointRadius: 0,
                     pointBackgroundColor: '#007bff'
-                },{ label:'y',
-                    data: [
-                    2.55,
-                    3.42,
-                    2.78,
-                    3.89,
-                    4.01,
-                    1.99,
-                    1.87
-                    ],
-                    lineTension: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: '#FF7B00',
-                    borderWidth: 1,
-                    pointRadius: 0,
-                    pointBackgroundColor: '#007bff'
-                },{ label:'z',
-                    data: [
-                    -2,
-                    2.5,
-                    2.22,
-                    6,
-                    5.66,
-                    4.53,
-                    3.25
-                    ],
-                    lineTension: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: '#7BFF00',
-                    borderWidth: 1,
-                    pointRadius: 0,
-                    pointBackgroundColor: '#007bff'
-                }
+                    }
+                //,  { label:'y',
+                //     data: [
+                //     2.55,
+                //     3.42,
+                //     2.78,
+                //     3.89,
+                //     4.01,
+                //     1.99,
+                //     1.87
+                //     ],
+                //     lineTension: 0,
+                //     backgroundColor: 'transparent',
+                //     borderColor: '#FF7B00',
+                //     borderWidth: 1,
+                //     pointRadius: 0,
+                //     pointBackgroundColor: '#007bff'
+                // },{ label:'z',
+                //     data: [
+                //     -2,
+                //     2.5,
+                //     2.22,
+                //     6,
+                //     5.66,
+                //     4.53,
+                //     3.25
+                //     ],
+                //     lineTension: 0,
+                //     backgroundColor: 'transparent',
+                //     borderColor: '#7BFF00',
+                //     borderWidth: 1,
+                //     pointRadius: 0,
+                //     pointBackgroundColor: '#007bff'
+                // }
                 ]
                 },
                 options: {
@@ -377,8 +379,8 @@
                               return new Date(data).toLocaleString();
                             }},
                             {data : 'raw_x'},
-                            {data : 'raw_y'},
-                            {data : 'raw_z'}
+                            //{data : 'raw_y'},
+                            //{data : 'raw_z'}
                     ]
                     
                       } );
@@ -405,4 +407,4 @@
             });
         </script>
     </body>
-</html>
+</html> 
