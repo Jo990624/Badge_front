@@ -246,14 +246,29 @@
                             let xdata = [];
                             let ydata = [];
                             //let zdata = [];
+                            let sumSit = 0;
+                            let sumStand = 0;
+                            let sumWalk = 0;
       
                             result.forEach(item => {
                                 xlabels.push(new Date(item.time_stamp).toLocaleString());
                                 xdata.push(item.raw_x);
                                 ydata.push(item.raw_y);
                                 //zdata.push(item.raw_z);
+                                if (item.raw_y == 0){sumSit += 1};
+                                if (item.raw_y == 1){sumStand += 1};
+                                if (item.raw_y == 2){sumWalk += 1};
                                 
                             });
+                            var pctSit = 100*sumSit/(sumSit+sumStand+sumWalk);
+                            var pctStand = 100*sumStand/(sumSit+sumStand+sumWalk);
+                            var pctWalk = 100*sumWalk/(sumSit+sumStand+sumWalk);
+                            console.log((pctSit.toFixed(2)).toString() + '%');
+                            console.log((pctStand.toFixed(2)).toString() + '%');
+                            console.log((pctWalk.toFixed(2)).toString() + '%');
+                            var pctres = 'Sitting:'+ (pctSit.toFixed(2)).toString() + '% ' + 'Moving:'+ (pctStand.toFixed(2)).toString() + '% ';
+                            document.getElementById('percentage').innerHTML= pctres;
+                            
                             let d = [];
                             d.push(xdata);
                             d.push(ydata);
