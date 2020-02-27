@@ -144,19 +144,13 @@
               Return <span class="sr-only">(current)</span>
             </a>
           </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              Datasets
-            </a>
-          </li> -->
         </ul>
       </div>
     </nav>
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Raw Body Movement</h1>
+        <h1 class="h2">Body Movement</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -182,21 +176,15 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"/>
 
-        <!-- <table class="table">
-          <thead>
-            <th>Badge ID</th><th>TimeStamp</th><th>x Value</th><th>y Value</th><th>z Value</th></tr>
-          </thead>
-          <tbody id="tBody"></tbody>
-        </table> -->
     <div class="container">
       <table id="myTable" class="display nowrap" width="100%">
         <thead>
           <tr>
             <th>Badge ID</th>
             <th>Time</th>
-            <th>X</th>
-            <th>Y</th>
-            <th>Z</th>
+            <th>State(Sit or Move)</th>
+            <th>State(Stand or Walk)</th>
+            <!-- <th>Z</th>  -->
           </tr>
         </thead>
 
@@ -231,6 +219,9 @@
             getData(myChart, dateFrom, dateTo);
             getDetails(dateFrom, dateTo);
           }
+
+          
+
             function getUrlVars() {
                 var vars = {};
                 var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -241,7 +232,7 @@
             const dataset_id = getUrlVars()["dataset_id"];
             const badge_id = getUrlVars()["badge_id"];
             const getData = (myChart, dateFrom, dateTo) => {
-              var URL = `/dev/api/movement/${dataset_id}?badge_id=${badge_id}`;
+              var URL = `/dev/api/movementState/${dataset_id}?badge_id=${badge_id}`;
               if (dateFrom != null) {
                 URL = URL + "&dataFrom=" + dateFrom.toString();
               }
@@ -254,19 +245,19 @@
                             let xlabels = [];
                             let xdata = [];
                             let ydata = [];
-                            let zdata = [];
+                            //let zdata = [];
       
                             result.forEach(item => {
                                 xlabels.push(new Date(item.time_stamp).toLocaleString());
                                 xdata.push(item.raw_x);
                                 ydata.push(item.raw_y);
-                                zdata.push(item.raw_z);
+                                //zdata.push(item.raw_z);
                                 
                             });
                             let d = [];
                             d.push(xdata);
                             d.push(ydata);
-                            d.push(zdata);
+                            //d.push(zdata);
                             myChart.data.labels = xlabels;
                             myChart.data.datasets.forEach((dataset, index) => {
                                 dataset.data = d[index];
@@ -294,55 +285,60 @@
                     '7'
                 ],
                 datasets: [{
-                    label:'x',
+                    label:'state: 0-sit down  1-stand up',
                     data: [
-                    1.23,
-                    1.23,
-                    2.24,
-                    0.98,
-                    3.33,
-                    1.79,
-                    2.22
+                    0,
+                    0,
+                    1,
+                    1,
+                    1,
+                    1,
+                    1
                     ],
+                    steppedLine: true,
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#007bff',
                     borderWidth: 1,
                     pointRadius: 0,
                     pointBackgroundColor: '#007bff'
-                },{ label:'y',
+                    }
+                   ,{ 
+                    label:'2-still  3-walk',
                     data: [
-                    2.55,
-                    3.42,
-                    2.78,
-                    3.89,
-                    4.01,
-                    1.99,
-                    1.87
+                     ,
+                     ,
+                    2,
+                    2,
+                    3,
+                    2,
+                    2
                     ],
+                    steppedLine: true,
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#FF7B00',
                     borderWidth: 1,
                     pointRadius: 0,
                     pointBackgroundColor: '#007bff'
-                },{ label:'z',
-                    data: [
-                    -2,
-                    2.5,
-                    2.22,
-                    6,
-                    5.66,
-                    4.53,
-                    3.25
-                    ],
-                    lineTension: 0,
-                    backgroundColor: 'transparent',
-                    borderColor: '#7BFF00',
-                    borderWidth: 1,
-                    pointRadius: 0,
-                    pointBackgroundColor: '#007bff'
-                }
+                  }
+                //,{ label:'z',
+                //     data: [
+                //     -2,
+                //     2.5,
+                //     2.22,
+                //     6,
+                //     5.66,
+                //     4.53,
+                //     3.25
+                //     ],
+                //     lineTension: 0,
+                //     backgroundColor: 'transparent',
+                //     borderColor: '#7BFF00',
+                //     borderWidth: 1,
+                //     pointRadius: 0,
+                //     pointBackgroundColor: '#007bff'
+                // }
                 ]
                 },
                 options: {
@@ -363,7 +359,7 @@
             $(document).ready(function() {
                 var table = $('#myTable').DataTable( {
                         ajax: {
-                            url: `/dev/api/movement/${dataset_id}?badge_id=${badge_id}`,
+                            url: `/dev/api/movementState/${dataset_id}?badge_id=${badge_id}`,
                             dataSrc: ''
                             
                         },
@@ -378,7 +374,7 @@
                             }},
                             {data : 'raw_x'},
                             {data : 'raw_y'},
-                            {data : 'raw_z'}
+                            //{data : 'raw_z'}
                     ]
                     
                       } );
@@ -405,4 +401,4 @@
             });
         </script>
     </body>
-</html>
+</html> 

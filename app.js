@@ -21,6 +21,10 @@ app.get('/movement',function(req,res){
     res.sendFile(path.join(__dirname, './public', '/movement.html'));
 });
 
+app.get('/movementState',function(req,res){
+    res.sendFile(path.join(__dirname, './public', '/movementState.html'));
+});
+
 app.get('/voice',function(req,res){
     res.sendFile(path.join(__dirname, './public', '/voice.html'));
 });
