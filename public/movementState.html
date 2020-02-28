@@ -183,8 +183,8 @@
           <tr>
             <th>Badge ID</th>
             <th>Time</th>
-            <th>State(Sit or Move)</th>
-            <th>State(Stand or Walk)</th>
+            <th>State(Static/Sit Down/Stand up)</th>
+            <th>State(Still/Walk)</th>
             <!-- <th>Z</th>  -->
           </tr>
         </thead>
@@ -292,24 +292,12 @@
                 type: 'line',
                 data: {
                 labels: [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                    '6',
-                    '7'
+                    
                 ],
                 datasets: [{
-                    label:'state: 0-static  1-sit down   2-stand up',
+                    label:'0-static  1-sit down   2-stand up',
                     data: [
-                    0,
-                    0,
-                    1,
-                    1,
-                    2,
-                    1,
-                    1
+                   
                     ],
                     steppedLine: true,
                     lineTension: 0,
@@ -322,13 +310,7 @@
                    ,{ 
                     label:'3-still   4-walk',
                     data: [
-                    3,
-                    4,
-                    3,
-                    3,
-                    3,
-                    4,
-                    4
+                    
                     ],
                     steppedLine: true,
                     lineTension: 0,
