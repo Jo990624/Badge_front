@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Thrid Page</title>
+    <title>Relationship</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/dashboard/">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -17,13 +17,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
     <link href="https://nightly.datatables.net/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
     <style>
-      .clickable { 
-            height: 50px; 
-        } 
-          
-        .clickable:hover { 
-            background: paleturquoise; 
-        } 
         body {
   font-size: .875rem;
 }
@@ -129,7 +122,6 @@
     <!-- Custom styles for this template -->
     <!-- <link href="dashboard.css" rel="stylesheet"> -->
   </head>
-  <body >
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">user name</a>
   <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
@@ -151,51 +143,45 @@
               Return <span class="sr-only">(current)</span>
             </a>
           </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file"></span>
+              Datasets
+            </a>
+          </li> -->
         </ul>
       </div>
     </nav>
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Please choose the sensor</h1>
+        <h1 class="h2">Please choose the group</h1>
       </div>
-      <div class="container">
-        <table class="table">
-          <thead class="thead-dark">
-          <tr>
-              <th scope="col">#</th>  
-              <th scope="col">Dataset Name</th>
-              <th scope="col">Description</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="clickable" onclick="window.location=`/dev/movement?dataset_id=${dataset_id}&badge_id=${badge_id}`">
-              <th scope="row">1</th>
-              <td>Body Movement(Raw Data)</td>
-              <td>Body movement acceleration on x, y, z</td>
-          </tr>
-          <tr class="clickable" onclick="window.location=`/dev/movementState?dataset_id=${dataset_id}&badge_id=${badge_id}`">
-            <th scope="row">2</th>
-            <td>Body Movement(State)</td>
-            <td>Body movement State</td>
-        </tr>
-          <tr class="clickable" onclick="window.location=`/dev/voice?dataset_id=${dataset_id}&badge_id=${badge_id}`">
-              <th scope="row">3</th>
-              <td>Voice</td>
-              <td>Voice frequency & amplitude</td>
-          </tr>
-          <tr class="clickable" onclick="window.location=`/dev/relationship?dataset_id=${dataset_id}&badge_id=${badge_id}`">
-            <th scope="row">4</th>
-            <td>Relationship</td>
-            <td>Devices are in a group</td>
-        </tr>
-          </tbody>
-      </table>
-      </div>
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+      
+
+      
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"/>
+
+        <!-- <table class="table">
+          <thead>
+            <th>Badge ID</th><th>TimeStamp</th><th>x Value</th><th>y Value</th><th>z Value</th></tr>
+          </thead>
+          <tbody id="tBody"></tbody>
+        </table> -->
+    <div class="container">
+      <table id="myTable" class="display nowrap" width="100%">
+        <thead>
+          <tr>
+            <th>Badge ID</th>
+            <th>Connected Devices</th>
+            <th>Time Duration</th>
+          </tr>
+        </thead>
+
+      </table>
+    </div>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -212,18 +198,40 @@
         <script src="bootstrap-datetimepicker.min.js"></script>
         <script src="https://nightly.datatables.net/js/jquery.dataTables.js"></script>
         <script>
-          function getUrlVars() {
-                      var vars = {};
-                      var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                          vars[key] = value;
-                      });
-                      return vars;
-                  }
-                  const dataset_id = getUrlVars()["dataset_id"];
-                  const badge_id = getUrlVars()["badge_id"];
-          </script>
-      
-      </body>
-        
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+            const dataset_id = getUrlVars()["dataset_id"];
+            const badge_id = getUrlVars()["badge_id"];
+            $(document).ready(function() {
+                var table = $('#myTable').DataTable( {
+                        ajax: {
+                            url: `/dev/api/relationship/${dataset_id}?badge_id=${badge_id}`,
+                            dataSrc: ''
+                            
+                        },
+                    colReorder: {
+                  realtime: true
+                    },
+                        "aoColumns" : [
+                            {data : 'badge_id',
+                            render: function ( data, type, row ) {
+                              return new Date(data).toLocaleString();
+                            }},
+                            {data : 'connected_badge'},
+                            {data : 'time_duration'}
+                    ]
+                    
+                      } );
+                      
+            } 
+              
+            );
+            
+        </script>
     </body>
 </html>

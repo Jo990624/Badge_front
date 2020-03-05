@@ -29,4 +29,12 @@ app.get('/voice',function(req,res){
     res.sendFile(path.join(__dirname, './public', '/voice.html'));
 });
 
+app.get('/relationship',function(req,res){
+    res.sendFile(path.join(__dirname, './public', '/relationship.html'));
+});
+
+app.get('/group',function(req,res){
+    res.sendFile(path.join(__dirname, './public', '/group.html'));
+});
+
 module.exports.handler = serverless(app);
