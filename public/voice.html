@@ -200,8 +200,8 @@
           <tr>
             <th>Badge ID</th>
             <th>Time</th>
-            <th>Magnitude</th>
-            <th>Frequency</th>
+            <th>Speak(Yes/No)</th>
+            <th>Db Values</th>
           </tr>
         </thead>
 
@@ -289,22 +289,24 @@
                 labels: [
                 ],
                 datasets: [{
-                    label:'Magnitude',
+                    label:'1-Speak  0-Not Speak',
                     data: [
                     ],
+                    steppedLine: true,
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#007bff',
                     borderWidth: 1,
+                    pointRadius: 0,
                     pointBackgroundColor: '#007bff'
-                },{ label:'Frequency',
+                },{ label:'Db Values',
                     data: [
                     ],
                     lineTension: 0,
                     backgroundColor: 'transparent',
                     borderColor: '#FF7B00',
-                    borderWidth: 1
-                    ,
+                    borderWidth: 1,
+                    pointRadius: 0,
                     pointBackgroundColor: '#007bff'
                 }
                 ]

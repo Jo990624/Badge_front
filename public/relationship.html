@@ -157,6 +157,19 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Please choose the group</h1>
       </div>
+      <div class="container">
+        <table id="myTable" class="display nowrap" width="100%">
+          <thead>
+            <tr>
+              <th>Badge ID</th>
+              <th>Time</th>
+              <th>Dataset ID</th>
+              <th>Mac Address</th>
+            </tr>
+          </thead>
+  
+        </table>
+      </div>
       
 
       
@@ -170,18 +183,7 @@
           </thead>
           <tbody id="tBody"></tbody>
         </table> -->
-    <div class="container">
-      <table id="myTable" class="display nowrap" width="100%">
-        <thead>
-          <tr>
-            <th>Badge ID</th>
-            <th>Connected Devices</th>
-            <th>Time Duration</th>
-          </tr>
-        </thead>
-
-      </table>
-    </div>
+    
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -207,10 +209,11 @@
             }
             const dataset_id = getUrlVars()["dataset_id"];
             const badge_id = getUrlVars()["badge_id"];
+          
             $(document).ready(function() {
                 var table = $('#myTable').DataTable( {
                         ajax: {
-                            url: `/dev/api/relationship/${dataset_id}?badge_id=${badge_id}`,
+                            url: `/dev/api/nearMobiles/${dataset_id}?badge_id=${badge_id}`,
                             dataSrc: ''
                             
                         },
@@ -218,12 +221,14 @@
                   realtime: true
                     },
                         "aoColumns" : [
-                            {data : 'badge_id',
+                            {data : 'badge_id'},
+                            {data : 'time_stamp',
                             render: function ( data, type, row ) {
                               return new Date(data).toLocaleString();
                             }},
-                            {data : 'connected_badge'},
-                            {data : 'time_duration'}
+                            {data : 'dataset_id'},
+                            {data : 'mac_address'}
+
                     ]
                     
                       } );
