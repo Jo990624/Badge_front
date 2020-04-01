@@ -159,7 +159,7 @@
               <th>badge_id</th>
               <th>dataset_id</th>
               <th>mac_address</th>
-              <th>time_stamp</th>
+              <th>time</th>
               <th>user_id</th>
               <th>user_name</th>
             </tr>
@@ -212,7 +212,10 @@
                       }},
                       {data : 'dataset_id'},
                       {data : 'mac_address'},
-                      {data : 'time_stamp'},
+                      {data : 'time_stamp',
+                      render: function ( data, type, row ) {
+                        return new Date(data).toLocaleString();
+                      }},
                       {data : 'user_id'},
                       {data : 'user_name'}
               ]

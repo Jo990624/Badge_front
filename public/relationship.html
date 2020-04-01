@@ -209,13 +209,13 @@
             }
             const dataset_id = getUrlVars()["dataset_id"];
             const badge_id = getUrlVars()["badge_id"];
+            
           
             $(document).ready(function() {
                 var table = $('#myTable').DataTable( {
                         ajax: {
                             url: `/dev/api/nearMobiles/${dataset_id}?badge_id=${badge_id}`,
                             dataSrc: ''
-                            
                         },
                     colReorder: {
                   realtime: true

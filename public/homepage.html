@@ -161,7 +161,7 @@
               <th>dataset_name</th>
               <th>description</th>
               <th>numberOfBadges</th>
-              <th>time_stamp</th>
+              <th>time</th>
             </tr>
           </thead>
         </table>
@@ -212,7 +212,11 @@
                       {data : 'dataset_name'},
                       {data : 'description'},
                       {data : 'numberofBadges'},
-                      {data : 'time_stamp'}
+                      {data : 'time_stamp',
+                      render: function ( data, type, row ) {
+                        return new Date(data).toLocaleString();
+                      }
+                      }
               ]
               
               } );
