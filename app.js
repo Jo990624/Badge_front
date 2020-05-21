@@ -6,8 +6,6 @@ const path = require('path');
 app.use(express.static('public'))
 
 
-
-
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, './public', '/homepage.html'));
 });
@@ -39,5 +37,10 @@ app.get('/relationship',function(req,res){
 app.get('/group',function(req,res){
     res.sendFile(path.join(__dirname, './public', '/group.html'));
 });
+
+
+
+
+
 
 module.exports.handler = serverless(app);

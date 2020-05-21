@@ -218,157 +218,160 @@
             var mac_address_list_tmp = [];
             var time_stamp_list_tmp = [];
             var time_stamp_list = [];
+            var speak_time_tm = 0;
             
             $.ajax({url: `/dev/api/badgeMetaData?dataset_id=${dataset_id}`, 
-                        success: function(result){
-                            result.forEach(item => {
-                              if (dict[item.mac_address] == null){
-                                dict[item.mac_address] = item.badge_id;
-                              }
-                            });
+              success: function(result){
+                result.forEach(item => {
+                  if (dict[item.mac_address] == null){
+                    dict[item.mac_address] = item.badge_id;
+                  }
+                });
                             
-                            $.ajax({url: `/dev/api/nearMobiles/${dataset_id}?badge_id=${badge_id}`, 
-                                        success: function(result){
-                                            result.forEach(item => {
-                                              time_stamp_list_tmp.push(item.time_stamp);
-                                              mac_address_list_tmp.push(item.mac_address);
-                                            });
-                                            
-                                            for(var i = 0; i < time_stamp_list_tmp.length; i++) {
-                                              if(i == time_stamp_list_tmp.length - 1) {
-                                                var list_tmp = {"start":time_stamp_list_tmp[i], "end":nowDate};
-                                                time_stamp_list.push(list_tmp);
-                                              }
-                                              else {
-                                                var list_tmp = {'start':time_stamp_list_tmp[i], 'end': time_stamp_list_tmp[i+1]};
-                                                time_stamp_list.push(list_tmp);
-                                              }
-                                              var badge_id_list_tmp = [];
-                                              for(var j = 0; j < mac_address_list_tmp.length; j++) {
-                                                badge_id_list_tmp.push(dict[mac_address_list_tmp[i][j]]);
-                                              }
-                                              badge_id_list.push(badge_id_list_tmp);                              
-                                            }
-                                            
-                                            console.log("mac_address_list_tmp", mac_address_list_tmp);
-                                            console.log("time_stamp_list_tmp",time_stamp_list_tmp);
-                                            console.log("time_stamp_list_tmp.length",time_stamp_list_tmp.length);
-                                            console.log("badge_id_list",badge_id_list);
-                                            console.log("time_stamp_list",time_stamp_list);
-                                            
-                                            
-                                            var voice_time_tmp = []
-                                            
-                                            const getData = (badge_id_tmp, dateFrom, dateTo) => {
-                                              var URL = `/dev/api/voice/${dataset_id}?badge_id=${badge_id_tmp}`;
-                                              if (dateFrom != null) {
-                                                URL = URL + "&dataFrom=" + dateFrom.toString();
-                                              }
-                                              if (dateTo != null) {
-                                                URL = URL + "&dataTo=" + dateTo.toString();
-                                              }
-                                              var speak_time_tmp = 0;
-                                              console.log("URL:", URL);
-                                                $.ajax({url: URL, 
-                                                        async: false,//设置成同步
-                                                        success: function(result){
-                                                            voice_time_tmp = []
-                                                            console.log("result:", result);
-                                      
-                                                            result.forEach(item => {
-                                                                if(item.raw_m == 1) {
-                                                                  speak_time_tmp = speak_time_tmp + 1;
-                                                                }
-                                                            });
-                                                          console.log("speak_time_tmp",speak_time_tmp); 
-                                                          voice_time_tmp.push(speak_time_tmp)
-                                                           
-                                                          } 
-                                                        }
-                                                );
-                                      
-                                            } 
-
-
-                                            var nowDate = new Date().getTime();
-                                            // document.getElementById("timesj").value = new Date().getTime();
-                                            
-                                            voice_ratio = [];
-                                            for(var i = 0; i < badge_id_list.length; i++) {
-                                              var voice_time_list_tmp = [];
-                                              for(var j = 0; j < badge_id_list[i].length; j++) {
-                                                getData(badge_id_list[i][j], time_stamp_list[i]["start"], time_stamp_list[i]["end"]);
-                                                console.log("voice_time_tmp", voice_time_tmp);
-                                                voice_time_list_tmp.push(voice_time_tmp);
-                                              }
-                                              voice_ratio.push(voice_time_list_tmp);
-                                            }
-                                            
-                                            for(var i = 0; i < voice_ratio.length; i++) {
-                                              var voice_time_sum = 0;
-                                              for(var j = 0; j < voice_ratio[i].length; j++) {
-                                                voice_time_sum += voice_ratio[i][j];
-                                              }
-                                              if (voice_time_sum != 0) {
-                                                for(var j = 0; j < voice_ratio[i].length; j++) {
-                                                  voice_ratio[i][j] /= voice_time_sum;
-                                                }
-                                              }
-                                              else {
-                                                for(var j = 0; j < voice_ratio[i].length; j++) {
-                                                  voice_ratio[i][j] = 0;
-                                                }                                                
-                                              }
-                                            }
-                                            console.log("voice_ratio[0]", voice_ratio[0]);
-                                            console.log("voice_ratio[1]", voice_ratio[1]);
-                                            var kkk = -1;
-                                            $(document).ready(function() {
-                                                var table = $('#myTable').DataTable( {
-                                                        ajax: {
-                                                            url: `/dev/api/nearMobiles/${dataset_id}?badge_id=${badge_id}`,
-                                                            dataSrc: ''
-                                                        },
-                                                        colReorder: {
-                                                        realtime: true
-                                                        },
-                                                        "aoColumns" : [
-                                                            {data : 'badge_id'},
-                                                            {data : 'time_stamp',
-                                                            render: function ( data, type, row ) {
-                                                              return new Date(data).toLocaleString();
-                                                            }},
-                                                            {data : 'dataset_id'},
-                                                            {data : 'mac_address',
-                                                            render: function ( data, type, row) {
-                                                              var badge_list = [];
-                                                              for(var i = 0; i < data.length; i++) {
-                                                                badge_list.push(dict[data[i]]);
-                                                              }
-                                                              return badge_list;
-                                                            }},
-                                                            {
-                                                            render: function (data, type, row) {
-                                                              kkk = kkk + 1;
-                                                              if(kkk >= voice_ratio.length){
-                                                                return [0, 0];
-                                                              }
-                                                              else {
-                                                                return voice_ratio[kkk];
-                                                              }
-                                                            }}
-                                                        ]
-                                                    
-                                              } );
-                                                      
-                                            } );
-                                            
-                                            
-                                          }
-                                        }
-                                );                         
-                        } 
+            $.ajax({url: `/dev/api/nearMobiles/${dataset_id}?badge_id=${badge_id}`, 
+                success: function(result){
+                    result.forEach(item => {
+                      time_stamp_list_tmp.push(item.time_stamp);
+                      mac_address_list_tmp.push(item.mac_address);
+                    });
+                            
+                    for(var i = 0; i < time_stamp_list_tmp.length; i++) {
+                      if(i == time_stamp_list_tmp.length - 1) {
+                        var list_tmp = {"start":time_stamp_list_tmp[i], "end":nowDate};
+                        time_stamp_list.push(list_tmp);
+                      }
+                      else {
+                        var list_tmp = {'start':time_stamp_list_tmp[i], 'end': time_stamp_list_tmp[i+1]};
+                        time_stamp_list.push(list_tmp);
+                      }
+                      var badge_id_list_tmp = [];
+                      for(var j = 0; j < mac_address_list_tmp.length; j++) {
+                        badge_id_list_tmp.push(dict[mac_address_list_tmp[i][j]]);
+                      }
+                      badge_id_list.push(badge_id_list_tmp);                              
                     }
+                    
+                    console.log("mac_address_list_tmp", mac_address_list_tmp);
+                    console.log("time_stamp_list_tmp",time_stamp_list_tmp);
+                    console.log("time_stamp_list_tmp.length",time_stamp_list_tmp.length);
+                    console.log("badge_id_list",badge_id_list);
+                    console.log("time_stamp_list",time_stamp_list);
+                    
+                    
+                    var voice_time_tmp = []
+                    
+                    const getData = (badge_id_tmp, dateFrom, dateTo) => {
+                      var URL = `/dev/api/voice/${dataset_id}?badge_id=${badge_id_tmp}`;
+                      if (dateFrom != null) {
+                        URL = URL + "&dataFrom=" + dateFrom.toString();
+                      }
+                      if (dateTo != null) {
+                        URL = URL + "&dataTo=" + dateTo.toString();
+                      }
+                              
+                      console.log("URL:", URL);
+                        $.ajax({url: URL, 
+                                async: false,//设置成同步
+                                success: function(result){
+                                    speak_time_tmp = 0;
+                                    voice_time_tmp = []
+                                    console.log("result:", result);
+              
+                                    result.forEach(item => {
+                                        if(item.raw_m == 1) {
+                                          speak_time_tmp = speak_time_tmp + 1;
+                                        }
+                                    });
+                                  } 
+                                }
+                        );
+                    } 
+
+                            
+                    var nowDate = new Date().getTime();
+                    // document.getElementById("timesj").value = new Date().getTime();
+                    
+                    voice_ratio = [];
+                    for(var i = 0; i < badge_id_list.length; i++) {
+                      var voice_time_list_tmp = [];
+                      for(var j = 0; j < badge_id_list[i].length; j++) {
+                        if(badge_id_list[i][j] == undefined) {
+                          continue;
+                        }
+                        else {
+                          getData(badge_id_list[i][j], time_stamp_list[i]["start"], time_stamp_list[i]["end"]);
+                          voice_time_list_tmp.push(speak_time_tmp);
+                        }
+
+                      }
+                      voice_ratio.push(voice_time_list_tmp);
+                    }
+                    
+                    for(var i = 0; i < voice_ratio.length; i++) {
+                      var voice_time_sum = 0;
+                      for(var j = 0; j < voice_ratio[i].length; j++) {
+                        voice_time_sum += voice_ratio[i][j];
+                      }
+                      if (voice_time_sum != 0) {
+                        for(var j = 0; j < voice_ratio[i].length; j++) {
+                          voice_ratio[i][j] /= voice_time_sum;
+                        }
+                      }
+                      else {
+                        for(var j = 0; j < voice_ratio[i].length; j++) {
+                          voice_ratio[i][j] = 0;
+                        }                                                
+                      }
+                    }
+                    console.log("voice_ratio[0]", voice_ratio[0]);
+                    console.log("voice_ratio[1]", voice_ratio[1]);
+                    var index = -1;
+                    $(document).ready(function() {
+                      var table = $('#myTable').DataTable( {
+                          ajax: {
+                              url: `/dev/api/nearMobiles/${dataset_id}?badge_id=${badge_id}`,
+                              dataSrc: ''
+                          },
+                          colReorder: {
+                          realtime: true
+                          },
+                          "aoColumns" : [
+                              {data : 'badge_id'},
+                              {data : 'time_stamp',
+                              render: function ( data, type, row ) {
+                                return new Date(data).toLocaleString();
+                              }},
+                              {data : 'dataset_id'},
+                              {data : 'mac_address',
+                              render: function ( data, type, row) {
+                                var badge_list = [];
+                                for(var i = 0; i < data.length; i++) {
+                                  badge_list.push(dict[data[i]]);
+                                }
+                                return badge_list;
+                              }},
+                              {
+                              render: function (data, type, row) {
+                                index = index + 1;
+                                if(index >= voice_ratio.length){
+                                  return [0, 0];
+                                }
+                                else {
+                                  return voice_ratio[index].map(x=>(x*100).toFixed(2) + "%");
+                                }
+                              }}
+                          ]
+                      
+                } );
+                        
+                  } );
+                    
+                    
+                  }
+                }
+        );                         
+        } 
+    }
 
                 );
 
